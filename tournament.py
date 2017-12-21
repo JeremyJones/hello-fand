@@ -22,14 +22,19 @@ class Participant(object):
 
     def set_prize(self, prize):
         """
-
+        Set a specific prize. Doesn't add prizes.
         :param prize: integer
         """
         self.prize = prize
 
 
 def sort_participants(participants):
-    pass
+    """
+    Sort a list of Participant objects by their score, in descending order.
+    :param participants: list
+    :return: list
+    """
+    return sorted(participants, key=lambda _: _.get_score() or 0, reverse=True)
 
 
 def distribute_prizes(participants, prizes):
