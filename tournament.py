@@ -1,18 +1,31 @@
 class Participant(object):
     def __init__(self, name, score):
-        pass
+        """
+
+        :param name: string
+        :param score: integer
+        """
+        self.name = name
+        self.score = score
 
     def get_name(self):
-        pass
+        return self.name
 
     def get_score(self):
-        pass
+        return self.score
 
     def get_prize(self):
-        pass
+        try:
+            return self.prize
+        except AttributeError:
+            return None
 
     def set_prize(self, prize):
-        pass
+        """
+
+        :param prize: integer
+        """
+        self.prize = prize
 
 
 def sort_participants(participants):
