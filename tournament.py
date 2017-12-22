@@ -51,14 +51,14 @@ def distribute_prizes(participants, prizes):
 
             myscore = participants[pidx].get_score()
 
-            winners = [pidx] # there might be more than one. remember the idx
+            winners = [pidx]  # there might be more than one. remember the idx
             nextPerson = pidx + 1
 
             for additionalidx in range(nextPerson, len(participants)):
                 if participants[additionalidx].get_score() == myscore:
-                    winners.append(additionalidx) # they also win
+                    winners.append(additionalidx)  # they also win
 
-                    if additionalidx + 1 in prizes: # and there's more money
+                    if additionalidx + 1 in prizes:  # and there's more money
                         prize += prizes[additionalidx + 1]
                         del(prizes[additionalidx + 1])
                 else:

@@ -22,7 +22,7 @@ class ParticipantTestCase(TestCase):
 
 class ParticipantSortTestCase(TestCase):
     def setUp(self):
-        #self.skipTest("Part II")
+        # self.skipTest("Part II")
 
         self.abby = Participant('Abby', 100)
         self.bill = Participant('Bill', 80)
