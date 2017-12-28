@@ -8,14 +8,19 @@ from CompetitionBehaviours.displayLeaderboard.displayText import \
 from CompetitionBehaviours.distributePrizes.equitable import \
     distributePrizesBehaviour as defaultPrizeBehaviour
 
+from CompetitionBehaviours.scoreParticipant.get_score import \
+    scoreParticipantBehaviour as defaultScoreParticipantBehaviour
+
 
 class Competition(object):
 
     def __init__(self, distributePrizesBehaviour=None,
-                 displayLeaderboardBehaviour=None):
+                 displayLeaderboardBehaviour=None,
+                 scoreParticipantBehaviour=None):
         """
         :param distributePrizesBehaviour: Interface for something which can distributePrizes
         :param displayLeaderboardBehaviour: Interface for something to displayLeaderboard
+        :param scoreParticipantBehaviour: Interface to scoreParticipant, used for sorting (in reverse)
         """
         self.participants = []
 
@@ -26,7 +31,11 @@ class Competition(object):
         self._displayLeaderboardBehaviour = displayLeaderboardBehaviour or \
                                             defaultDisplayBehaviour
         self.displayLeaderboardBehaviour = self._displayLeaderboardBehaviour()
-        
+
+        self._scoreParticipantBehaviour = scoreParticipantBehaviour or \
+                                          defaultScoreParticipantBehaviour
+        self.scoreParticipantBehaviour = self._scoreParticipantBehaviour()
+
     def addParticipant(self, participant):
         if self.getParticipant(participant) is None:
             self.participants.append(participant)
@@ -45,7 +54,8 @@ class Competition(object):
     def listParticipants(self, ordered=False):  # todo: filter=None
         if ordered:
             return sorted(self.participants, reverse=True,
-                          key=lambda p: p.get_score() or 0)
+                          key=lambda p: \
+                          self.scoreParticipantBehaviour.scoreParticipant(p) or 0)
         else:
             return self.participants
 
@@ -66,3 +76,6 @@ class Competition(object):
 
     def displayLeaderboard(self):
         self.displayLeaderboardBehaviour.displayLeaderboard(self)  # pass the Comp
+
+    def scoreParticipant(self, participant):
+        self.scoreParticipantBehaviour.scoreParticipant(self, participant)
