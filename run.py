@@ -9,8 +9,8 @@ from Tournament.Participant import Participant
 
 # sample data:
 #
-from Tournament.SampleData.prize_maps import example_prize_map
-from Tournament.SampleData.participants import beatles
+from Tournament.SampleData import (example_prize_map as prize_map,
+                                   beatles as participants)
 
 # optional behaviour overrides:
 #
@@ -21,9 +21,9 @@ from Tournament.SampleData.participants import beatles
 def main():
     c = Competition()  # or e.g. Competition(displayLeaderboardBehaviour=displayHTML)
 
-    c.setPrize(example_prize_map)
+    c.setPrize(prize_map)
 
-    for p in beatles:
+    for p in participants:
         participant = Participant(p[0],p[1])
         c.addParticipant(participant)
 
