@@ -28,6 +28,6 @@ class displayLeaderboardBehaviour(object):
                      people="\n".\
                      join(map(lambda p: '| %-12s| %5d | %5s |' % (p.get_name(), p.get_score(),
                                                                   prize_or_none(p.get_prize())),
-                              comp.listParticipants())))
+                              comp.listParticipants(ordered=True))))
 
         print output

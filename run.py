@@ -14,12 +14,20 @@ from Tournament.SampleData import (example_prize_map as prize_map,
 
 # optional behaviour overrides:
 #
-# from Competition.CompetitionBehaviours.displayLeaderboard.displayHTML \
+# from Tournament.Competition.CompetitionBehaviours.displayLeaderboard.displayHTML \
 #     import displayLeaderboardBehaviour as displayHTML
+#
+# from Tournament.Competition.CompetitionBehaviours.distributePrizes.longest_name \
+##    import distributePrizesBehaviour as awardByNameLength
 
 
 def main():
-    c = Competition()  # or e.g. Competition(displayLeaderboardBehaviour=displayHTML)
+    c = Competition()
+
+    # other options:
+    #
+    # Competition(displayLeaderboardBehaviour=displayHTML)
+    # Competition(distributePrizesBehaviour=awardByNameLength)
 
     c.setPrize(prize_map)
 
@@ -27,6 +35,7 @@ def main():
         participant = Participant(p[0],p[1])
         c.addParticipant(participant)
 
+    c.distributePrizes()
     c.displayLeaderboard()
 
 

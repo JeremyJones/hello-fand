@@ -20,7 +20,7 @@ class displayLeaderboardBehaviour(object):
                  ''.join(map(lambda p: \
                              '<tr><td>%s</td><td align=right>%d</td><td align=right>%s</td></tr>' % \
                              (p.get_name(), p.get_score(), prize_or_none(p.get_prize())),
-                             comp.listParticipants())) + \
+                             comp.listParticipants(ordered=True))) + \
                  "</table>"
 
         print output

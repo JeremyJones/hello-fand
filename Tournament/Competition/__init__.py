@@ -42,8 +42,12 @@ class Competition(object):
         except IndexError:
             return None
 
-    def listParticipants(self):  # todo: filter=None
-        return self.participants
+    def listParticipants(self, ordered=False):  # todo: filter=None
+        if ordered:
+            return sorted(self.participants, reverse=True,
+                          key=lambda p: p.get_score() or 0)
+        else:
+            return self.participants
 
     def setPrize(self, prize_map):
         self.prize_map = prize_map

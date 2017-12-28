@@ -2,16 +2,11 @@ class distributePrizesBehaviour(object):
 
     def distributePrizes(self, comp):
         """
-        Equitable prize distribution behaviour
-
-        Participants are awarded a prize based on their score (higher
-        is better). In the case where two or more participants have
-        the same score, each participant receives an equal share of
-        the prizes for the positions they cover. For example, if the
-        top two players have the same score, they cover the positions
-        1 & 2, and they split the prizes for positions 1 & 2 equally.
+        Longest name prize distribution behaviour
         """
-        participants = comp.listParticipants(ordered=True)
+        participants = sorted(comp.listParticipants(ordered=False),
+                              reverse=True,
+                              key=lambda p: len(p.get_name()))
         prizes = comp.getPrize()
 
         for pidx in range(len(participants)):
@@ -19,13 +14,13 @@ class distributePrizesBehaviour(object):
                 prize = prizes[pidx + 1]
                 del(prizes[pidx + 1])
                 
-                myscore = participants[pidx].get_score()
+                myscore = len(participants[pidx].get_name())
                 
                 winners = [pidx]  # there might be more than one. remember the idx
                 nextPerson = pidx + 1
 
                 for additionalidx in range(nextPerson, len(participants)):
-                    if participants[additionalidx].get_score() == myscore:
+                    if len(participants[additionalidx].get_name()) == myscore:
                         winners.append(additionalidx)  # they also win
 
                         if additionalidx + 1 in prizes:  # and there's more money
