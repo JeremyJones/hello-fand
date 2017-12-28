@@ -29,7 +29,7 @@ def main():
 
     # examples of other possibilities:
     #
-    # c = Competition(#displayLeaderboardBehaviour=displayHTML,
+    # c = Competition(displayLeaderboardBehaviour=displayHTML,
     #                 scoreParticipantBehaviour=longestNameWins)
     #
     c.setPrize(prize_map)

@@ -33,9 +33,3 @@ class Participant(object):
             return self.prize
         except AttributeError:
             return None
-
-    def summarise(self):
-        return "{name}: {score} ({prize})".\
-            format(name=self.get_name(),
-                   score=self.get_score(),
-                   prize=self.get_prize())
