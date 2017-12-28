@@ -6,7 +6,7 @@ Design Pattern.
 With this revision, objects for Competition and Participant have been
 split into separate files, and within the Competition object the
 algorithms for the functions below have been encapsulated, allowing
-them to be interchanged in orderto affect their behaviour:
+them to be interchanged in order to affect their behaviour:
 
 * distributePrizes
 * displayLeaderboard
