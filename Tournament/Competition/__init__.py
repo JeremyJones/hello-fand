@@ -2,11 +2,12 @@
 Module for Competitions - Strategy pattern.
 """
 
-from CompetitionBehaviours.Default.distributePrizes import \
+from CompetitionBehaviours.displayLeaderboard.displayText import \
+    displayLeaderboardBehaviour as defaultDisplayBehaviour
+
+from CompetitionBehaviours.distributePrizes.equitable import \
     distributePrizesBehaviour as defaultPrizeBehaviour
 
-from CompetitionBehaviours.Default.displayLeaderboard import \
-    displayLeaderboardBehaviour as defaultDisplayBehaviour
 
 class Competition(object):
 
@@ -53,9 +54,8 @@ class Competition(object):
     def getPrize(self):
         try:
             return self.prize_map
-        except StandardError:  # todo, limit this error 
-            #return None
-            raise
+        except AttributeError:
+            return None
     
     def distributePrizes(self):
         self.distributePrizesBehaviour.distributePrizes(self)  # pass in the Comp
