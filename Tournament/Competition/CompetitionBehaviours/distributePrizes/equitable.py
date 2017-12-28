@@ -14,6 +14,9 @@ class distributePrizesBehaviour(object):
         participants = comp.listParticipants(ordered=True)
         prizes = comp.getPrize()
 
+        if not prizes:
+            raise RuntimeError("No prizes defined")
+
         for pidx in range(len(participants)):
             if pidx + 1 in prizes:
                 prize = prizes[pidx + 1]
