@@ -1,3 +1,20 @@
+# FanDuel Python homework problem - dp_strategy
+
+This branch contains revisions to the code reflecting the *Strategy*
+Design Pattern.
+
+With this revision, objects for Competition and Participant have been
+split into separate files, and within the Competition object the
+algorithms for the functions below have been encapsulated, allowing
+them to be interchanged in orderto affect their behaviour:
+
+* distributePrizes
+* displayLeaderboard
+
+The current Behaviours behind the interfaces are the defaults as
+provided in the main task description.
+
+
 # FanDuel Python homework problem
 
 In a tournament, prizes are distributed among the top P positions in
