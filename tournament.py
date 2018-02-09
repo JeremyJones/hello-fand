@@ -1,10 +1,16 @@
 from collections import OrderedDict
-from fdutils import next_winner
+
+
+def next_winner(participants, winningScore):
+    for p in participants:
+        if p.get_score() == winningScore:
+            yield p
 
 
 class PrizeMap(OrderedDict):
     def next_prize(self):
-        for prize in self.values():
+        prizes = self.values()
+        for prize in prizes:
             yield prize
 
 
@@ -16,6 +22,9 @@ class Participant():
         """
         self.name = name
         self.score = score
+
+    def __repr__(self):
+        return "Participant('{n}', {s})".format(n=self.name, s=self.score)
 
     def get_name(self) -> str:
         return self.name
@@ -69,3 +78,9 @@ def distribute_prizes(participants, prizes: PrizeMap) -> None:
 
             for winner in mywinners:
                 winner.set_prize(sum(myprizes) / len(mywinners))
+
+
+
+jer = Participant('Jer',100)
+john = Participant('John', 30)
+prizes = PrizeMap({"1": 100, "2": 60, "3": 40})

@@ -1,5 +1,4 @@
 from unittest import TestCase
-from collections import OrderedDict
 
 from tournament import (Participant, PrizeMap, distribute_prizes,      
                         sort_participants)
