@@ -1,6 +1,4 @@
 from collections import OrderedDict
-from operator import attrgetter
-from fdutils import num_winners
 from fdutils import next_winner
 
 
@@ -56,20 +54,19 @@ def distribute_prizes(participants, prizes: PrizeMap) -> None:
     :param prizes: map of prize values
     :return: None
     """
-    for pidx, participant in enumerate(participants):
+    for p in participants:
 
-        if participant.get_prize() is not None:
+        if p.get_prize() is not None:
             continue
-        elif prizes.get(pidx + 1) is None:
-            participant.set_prize(0)
         else:
-            mwinners, mprizes = [], []
+            mywinners, myprizes = [], []
 
             for winner, prize in zip(next_winner(participants,
-                                                 participant.get_score()),
+                                                 p.get_score()),
                                      prizes.next_prize()):
-                mwinners.append(winner)
-                mprizes.append(prize)
+                mywinners.append(winner)
+                myprizes.append(prize)
 
-            for winner in mwinners:
-                winner.set_prize(sum(mprizes) / len(mwinners))
+            for winner in mywinners:
+                winner.set_prize(sum(myprizes) / len(mywinners) 
+                                 if len(myprizes) else 0)
