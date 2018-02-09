@@ -68,5 +68,4 @@ def distribute_prizes(participants, prizes: PrizeMap) -> None:
                 myprizes.append(prize)
 
             for winner in mywinners:
-                winner.set_prize(sum(myprizes) / len(mywinners) 
-                                 if len(myprizes) else 0)
+                winner.set_prize(sum(myprizes) / len(mywinners))
