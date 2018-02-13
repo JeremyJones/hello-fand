@@ -8,22 +8,23 @@ def next_winner(participants, winningScore):
 
 
 class PrizeMap(OrderedDict):
+    prizes = None
+
     def next_prize(self):
-        prizes = self.values()
+
+        if self.prizes is None:
+            self.prizes = self.values()
+
         for prize in prizes:
             yield prize
 
 
-class Participant():
-    def __init__(self, name, score) -> None:
-        """
-        :param name: string
-        :param score: integer
-        """
+class Participant:
+    def __init__(self, name: str, score: int) -> None:
         self.name = name
         self.score = score
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "Participant('{n}', {s})".format(n=self.name, s=self.score)
 
     def get_name(self) -> str:
@@ -68,19 +69,20 @@ def distribute_prizes(participants, prizes: PrizeMap) -> None:
         if p.get_prize() is not None:
             continue
         else:
-            mywinners, myprizes = [], []
+            mywinners, prize_money = [], 0
 
             for winner, prize in zip(next_winner(participants,
                                                  p.get_score()),
                                      prizes.next_prize()):
                 mywinners.append(winner)
-                myprizes.append(prize)
+                prize_money += prize
 
             for winner in mywinners:
-                winner.set_prize(sum(myprizes) / len(mywinners))
+                winner.set_prize(prize_money / len(mywinners))
 
 
-
+""" Helpers for interactive mode.
+"""
 jer = Participant('Jer',100)
 john = Participant('John', 30)
 prizes = PrizeMap({"1": 100, "2": 60, "3": 40})
