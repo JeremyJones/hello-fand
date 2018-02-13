@@ -17,8 +17,12 @@ class PrizeMap(OrderedDict):
         if self.prizes is None:
             self.prizes = self.values()
 
-        for prize in prizes:
+        for prize in self.prizes:
             yield prize
+
+
+class PodiumPlace(list):
+    pass
 
 
 class Participant:
@@ -27,10 +31,12 @@ class Participant:
         self.score = score
 
     def __repr__(self) -> str:
-        return "Participant('{n}', {s})".format(n=self.name, s=self.score)
+        return "Participant('{n}', {s}).set_prize({p})".\
+                format(n=self.get_name(), s=self.get_score(),
+                       p=self.get_prize())
 
     def __len__(self) -> int:
-        return self.score
+        return self.get_score()
 
     def get_name(self) -> str:
         return self.name
@@ -46,8 +52,7 @@ class Participant:
 
     def set_prize(self, prize) -> None:
         """
-        Set a specific prize, REPLACING any previous prize.
-        :param prize: integer
+        Set a specific prize, replacing any previous prize.
         """
         self.prize = prize
 
@@ -58,8 +63,7 @@ def sort_participants(participants):
     :param participants: list
     :return: iterable
     """
-    return sorted(participants, key=lambda p: p.get_score() or 0,
-                  reverse=True)
+    return sorted(participants, key=len, reverse=True)
 
 
 def distribute_prizes(participants, prizes: PrizeMap) -> None:
@@ -74,20 +78,16 @@ def distribute_prizes(participants, prizes: PrizeMap) -> None:
         if p.get_prize() is not None:
             continue
         else:
-            mywinners, prize_money = [], 0
+            winners, prize_money = PodiumPlace(), 0
 
             for winner, prize in zip(next_winner(participants,
                                                  p.get_score()),
                                      prizes.next_prize()):
-                mywinners.append(winner)
+                winners.append(winner)
                 prize_money += prize
 
-            for winner in mywinners:
-                winner.set_prize(prize_money / len(mywinners))
+            if prize_money == 0:
+                break
 
-
-""" Helpers for interactive mode.
-"""
-jer = Participant('Jer',100)
-john = Participant('John', 30)
-prizes = PrizeMap({"1": 100, "2": 60, "3": 40})
+            for winner in winners:
+                winner.set_prize(prize_money / len(winners))
