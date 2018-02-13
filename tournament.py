@@ -2,6 +2,8 @@ from collections import OrderedDict
 
 
 def next_winner(participants, winningScore):
+    """ generator for grepping players who have a particular score
+    """
     for p in participants:
         if p.get_score() == winningScore:
             yield p
@@ -9,6 +11,8 @@ def next_winner(participants, winningScore):
 
 class PrizeMap(OrderedDict):
     def next_prize(self):
+        """ generator for iterating through the prizes
+        """
         prizes = self.values()
         for prize in prizes:
             yield prize
@@ -25,6 +29,9 @@ class Participant():
 
     def __repr__(self):
         return "Participant('{n}', {s})".format(n=self.name, s=self.score)
+
+    def __len__(self) -> int:
+        return self.score
 
     def get_name(self) -> str:
         return self.name
