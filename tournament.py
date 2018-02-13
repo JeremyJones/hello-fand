@@ -1,17 +1,35 @@
-class Participant(object):
-    def __init__(self, name, score):
-        """
+from collections import OrderedDict
 
+
+def next_winner(participants, winningScore):
+    for p in participants:
+        if p.get_score() == winningScore:
+            yield p
+
+
+class PrizeMap(OrderedDict):
+    def next_prize(self):
+        prizes = self.values()
+        for prize in prizes:
+            yield prize
+
+
+class Participant():
+    def __init__(self, name, score) -> None:
+        """
         :param name: string
         :param score: integer
         """
         self.name = name
         self.score = score
 
-    def get_name(self):
+    def __repr__(self):
+        return "Participant('{n}', {s})".format(n=self.name, s=self.score)
+
+    def get_name(self) -> str:
         return self.name
 
-    def get_score(self):
+    def get_score(self) -> int:
         return self.score
 
     def get_prize(self):
@@ -20,7 +38,7 @@ class Participant(object):
         except AttributeError:
             return None
 
-    def set_prize(self, prize):
+    def set_prize(self, prize) -> None:
         """
         Set a specific prize, REPLACING any previous prize.
         :param prize: integer
@@ -32,40 +50,37 @@ def sort_participants(participants):
     """
     Sort a list of Participant objects by their score, in descending order.
     :param participants: list
-    :return: list
+    :return: iterable
     """
-    return sorted(participants, key=lambda p: p.get_score() or 0, reverse=True)
+    return sorted(participants, key=lambda p: p.get_score() or 0,
+                  reverse=True)
 
 
-def distribute_prizes(participants, prizes):
+def distribute_prizes(participants, prizes: PrizeMap) -> None:
     """
     Updates list of winners with their prize values, in-place.
     :param participants: sorted list of Participant objects
     :param prizes: map of prize values
     :return: None
     """
-    for pidx in range(len(participants)):
-        if pidx + 1 in prizes:
-            prize = prizes[pidx + 1]
-            del(prizes[pidx + 1])
+    for p in participants:
 
-            myscore = participants[pidx].get_score()
+        if p.get_prize() is not None:
+            continue
+        else:
+            mywinners, myprizes = [], []
 
-            winners = [pidx]  # there might be more than one. remember the idx
-            nextPerson = pidx + 1
+            for winner, prize in zip(next_winner(participants,
+                                                 p.get_score()),
+                                     prizes.next_prize()):
+                mywinners.append(winner)
+                myprizes.append(prize)
 
-            for additionalidx in range(nextPerson, len(participants)):
-                if participants[additionalidx].get_score() == myscore:
-                    winners.append(additionalidx)  # they also win
+            for winner in mywinners:
+                winner.set_prize(sum(myprizes) / len(mywinners))
 
-                    if additionalidx + 1 in prizes:  # and there's more money
-                        prize += prizes[additionalidx + 1]
-                        del(prizes[additionalidx + 1])
-                else:
-                    break
 
-            for winner in winners:
-                participants[winner].set_prize(prize / len(winners))
 
-        elif participants[pidx].get_prize() is None:
-            participants[pidx].set_prize(0)
+jer = Participant('Jer',100)
+john = Participant('John', 30)
+prizes = PrizeMap({"1": 100, "2": 60, "3": 40})

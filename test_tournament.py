@@ -1,6 +1,7 @@
 from unittest import TestCase
 
-from tournament import Participant, distribute_prizes, sort_participants
+from tournament import (Participant, PrizeMap, distribute_prizes,      
+                        sort_participants)
 
 
 class ParticipantTestCase(TestCase):
@@ -58,11 +59,11 @@ class DistributePrizesTestCase(TestCase):
     def setUp(self):
         # self.skipTest("Parts III & IV")
 
-        self.prizes = {
+        self.prizes = PrizeMap({
             1: 50,
             2: 20,
             3: 10,
-        }
+        })
 
     def test_example_one(self):
         self.sally = Participant('Sally', 77)
